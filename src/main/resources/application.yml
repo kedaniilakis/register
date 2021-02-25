@@ -8,7 +8,7 @@ spring:
     host: ${MAIL_HOST}
     username: hello
     password: hello
-    port: 1025
+    port: ${MAIL_PORT}
     properties:
       mail:
         smtp:
