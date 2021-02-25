@@ -1,0 +1,23 @@
+server:
+  port: 8081
+spring:
+  h2:
+    console:
+      enabled: true
+  mail:
+    host: ${MAIL_HOST}
+    username: hello
+    password: hello
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          ssl:
+            trust: '*'
+          starttls:
+            enable: true
+          timeout: 3000
+          writetimeout: 5000
+    
