@@ -3,7 +3,7 @@ package com.example.register.registration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +16,16 @@ import com.example.register.user.AppUserService;
 
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
+
 @Service
+@AllArgsConstructor
 public class RegistrationService {
 	private final AppUserService userService;
 	private final ConfirmationTokenService confirmationTokenService;
 	private final EmailSender sender;
 	private final BCryptPasswordEncoder encoder;
-	@Value("${HOST_NAME}")
-	private String hostName;
+	private Environment env;
+
 
 	public String signUpUser(RegistrationRequest request) {
 		AppUser user = new AppUser(request.getEmail(), request.getFirstName(), request.getLastName(),
@@ -39,7 +40,7 @@ public class RegistrationService {
 				LocalDateTime.now().plusMinutes(10), user);
 		confirmationTokenService.saveToken(confToken);
 		sender.send(user.getEmail(),
-				String.format("<a href=\"http://$s/api/v1/admin/confirmToken/%s\">Confirm Email</a>", hostName, token));
+				String.format("<a href=\"http://$s/api/v1/admin/confirmToken/%s\">Confirm Email</a>", env.getProperty("HOST_NAME"), token));
 		return token;
 
 	}
