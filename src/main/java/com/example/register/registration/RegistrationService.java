@@ -16,7 +16,6 @@ import com.example.register.user.AppUserService;
 
 import lombok.AllArgsConstructor;
 
-
 @Service
 @AllArgsConstructor
 public class RegistrationService {
@@ -25,7 +24,6 @@ public class RegistrationService {
 	private final EmailSender sender;
 	private final BCryptPasswordEncoder encoder;
 	private Environment env;
-
 
 	public String signUpUser(RegistrationRequest request) {
 		AppUser user = new AppUser(request.getEmail(), request.getFirstName(), request.getLastName(),
@@ -40,7 +38,8 @@ public class RegistrationService {
 				LocalDateTime.now().plusMinutes(10), user);
 		confirmationTokenService.saveToken(confToken);
 		sender.send(user.getEmail(),
-				String.format("<a href=\"http://$s/api/v1/admin/confirmToken/%s\">Confirm Email</a>", env.getProperty("HOST_NAME"), token));
+				String.format("<a href=\"http://%s/api/v1/admin/confirmToken/%s\">Confirm Email</a>",
+						env.getProperty("HOST_NAME"), token));
 		return token;
 
 	}
