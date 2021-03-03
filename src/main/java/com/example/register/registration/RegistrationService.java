@@ -36,7 +36,7 @@ public class RegistrationService {
 				LocalDateTime.now().plusMinutes(10), user);
 		confirmationTokenService.saveToken(confToken);
 		sender.send(user.getEmail(),
-				String.format("<a href=\"http://localhost:8081/api/v1/admin/confirmToken/%s\">Confirm Email</a>", token));
+				String.format("<a href=\"http://${HOST_NAME}/api/v1/admin/confirmToken/%s\">Confirm Email</a>", token));
 		return token;
 
 	}
